@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>Draw Arrow Lines Three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="js/three.min.js"></script>
+		<script>
+			// Our Javascript will go here.
+
+            // Set up the renderer.
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            // Add the renderer Dom Element to the DOM tree.
+            document.body.appendChild(renderer.domElement);
+
+            // We are creating the scene, renderer and the camera.
+            // The renderer will render the scene with the given camera.                
+            var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1,500);    
+            camera.position.set(0,0,100);
+            camera.lookAt(new THREE.Vector3(0,0,0));
+
+            var scene = new THREE.Scene();
+
+            // Creating the Line Basic material.
+            var material = new THREE.LineBasicMaterial({color:0x0000ff});
+            // Creating the new geometry.
+            var geometry = new THREE.Geometry();
+            geometry.vertices.push(new THREE.Vector3(-10,0,0));
+            geometry.vertices.push(new THREE.Vector3(0,10,0));
+            geometry.vertices.push(new THREE.Vector3(10,0,0));
+
+            // Creating a Line with the given geometry and material.
+            var line = new THREE.Line(geometry, material);
+            scene.add(line);    
+
+            function render() {
+                requestAnimationFrame(render);
+                renderer.render(scene, camera);                    
+            }   
+
+            render();
+
+		</script>
+	</body>
+</html>
