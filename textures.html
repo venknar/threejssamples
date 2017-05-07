@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>Draw Textures Three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="js/three.min.js"></script>
+		<script>
+			// Our Javascript will go here.
+
+            var scene = new THREE.Scene();
+
+            // Set up the renderer.
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setClearColor(0x3399ff);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+                
+            // Add the renderer Dom Element to the DOM tree.
+            document.body.appendChild(renderer.domElement);
+
+            // We are creating the scene, renderer and the camera.
+            // The renderer will render the scene with the given camera.                
+            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1,1000);    
+
+            // (width, height, depth)
+            var geometry = new THREE.BoxGeometry(5, 5, 5);
+            var material = new THREE.MeshLambertMaterial({color: 0xf6546a}) 
+
+            var loader = new THREE.TextureLoader();
+            var mesh = new THREE.Mesh(geometry, material)
+            // URL of texture
+            loader.load("images/boxtexture.jpg", function(texture){
+                var material = new THREE.MeshLambertMaterial({map: texture});
+                mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+            });
+                        
+            //var material = new THREE.MeshLambertMaterial({color: 0xf6546a}) 
+            //scene.add(mesh);
+                            
+            // (color, intensity)
+            var light = new THREE.PointLight(0xffffff, 1.2);
+            // (x, y, z)
+            light.position.set(0, 0, 6);
+            scene.add(light);                
+
+            // move the camera back
+            camera.position.z = 7;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                mesh.rotation.x += 0.01;
+                mesh.rotation.y += 0.01;
+                renderer.render(scene, camera);                    
+            }   
+
+            animate();    
+
+		</script>
+	</body>
+</html>
+
