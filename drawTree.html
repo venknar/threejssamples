@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>Draw Tree Three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="js/three.min.js"></script>
+        <script src="js/OrbitControls.js"></script>
+		<script>
+			// Our Javascript will go here.
+            var scene;
+            var camera;
+            var renderer;
+            
+            init();
+            animate();
+
+            function init() {
+                scene = new THREE.Scene();
+
+                // Set up the renderer.
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                 
+                // Add the renderer Dom Element to the DOM tree.
+                document.body.appendChild(renderer.domElement);
+
+                // We are creating the scene, renderer and the camera.
+                // The renderer will render the scene with the given camera.                
+                camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1,2000);    
+                camera.position.set(0,6,0);
+                scene.add(camera);
+
+                // Create a light, set its position, and add it to the scene.
+                var light = new THREE.PointLight(0xffffff);
+                light.position.set(-100,200,100);
+                scene.add(light);
+
+                // Load in the mesh and add it to the scene.
+                var loader = new THREE.JSONLoader();
+                loader.load( "models/treehouse_logo.js", function(geometry){
+                    var material = new THREE.MeshLambertMaterial({color: 0x55B663});
+                    mesh = new THREE.Mesh(geometry, material);
+                    scene.add(mesh);
+                });
+
+                controls = new THREE.OrbitControls(camera, renderer.domElement);                
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);                    
+
+                controls.update();
+            }   
+
+		</script>
+	</body>
+</html>
